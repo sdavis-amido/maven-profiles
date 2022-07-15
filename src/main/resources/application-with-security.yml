@@ -1,0 +1,7 @@
+app:
+  property: "from with-security profile"
+
+management:
+  server:
+    ssl:
+      enabled: false

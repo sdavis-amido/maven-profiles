@@ -74,49 +74,49 @@ There are 4 levels of dependencies provided:
 ## Running with just global dependencies
 
 ```bash
-mvn clean spring-boot:run -P -generic
+$ mvn clean spring-boot:run -P -generic
 
-mvn clean package -P -generic
+$ mvn clean package -P -generic
 ```
 
 ## Running with global dependencies & Generic dependencies (not explicitly specified)
 
 ```bash
-mvn clean spring-boot:run 
+$ mvn clean spring-boot:run 
 
-mvn clean package
+$ mvn clean package
 ```
 
 ## Running with global dependencies & Generic dependencies (explicitly specified)
 
 ```bash
-mvn clean spring-boot:run -P generic 
+$ mvn clean spring-boot:run -P generic 
 
-mvn clean package -P generic
+$ mvn clean package -P generic
 ```
 
 ## Running or building with global & Spring Actuator dependencies
 
 ```bash
-mvn clean spring-boot:run -P with-actuator 
+$ mvn clean spring-boot:run -P with-actuator 
 
-mvn clean package -P with-security
+$ mvn clean package -P with-security
 ```
 
 ## Running or building with global, Generic & Spring Actuator dependencies
 
 ```bash
-mvn clean spring-boot:run -P generic,with-actuator 
+$ mvn clean spring-boot:run -P generic,with-actuator 
 
-mvn clean package -P generic,with-security
+$ mvn clean package -P generic,with-security
 ```
 
 ## Running or building with global, Spring Actuator and Spring Security dependencies
 
 ```bash
-mvn clean spring-boot:run -P with-security,with-actuator 
+$ mvn clean spring-boot:run -P with-security,with-actuator 
 
-mvn clean package -P with-security,with-actuator
+$ mvn clean package -P with-security,with-actuator
 ```
 
 # Config File Post-processing
@@ -124,20 +124,35 @@ mvn clean package -P with-security,with-actuator
 To post-process the XML and permanently remove dependencies one option is to use a utility such
 as `xmlstarlet`.
 
+The example below removes all references to anything pulled in by `with-actuator`, in this example
+the
+Spring Boot Actuator libraries.
+
 ```bash
-brew install xmlstarlet
+# Install the utility 
+$ brew install xmlstarlet
 
 # Permanently remove the 'with-actuator' references (property and maven profile)
-      
-xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
+$ xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
       --delete './/ns:project/ns:properties/ns:with-actuator.profile.name' \
       --delete './/ns:project/ns:profiles/ns:profile[ns:id="with-actuator"]' \
       pom.xml        
 ```
 
-It would also be necessary to remove the relevant Spring profile include statements. This activity
-would be a little easier as it's just text manipulation of the application.yml file. It would be
-even easier if the properties for each profile were defined per resource file (for example, for
-the `with-actuator` Spring profile to create its properties using its
-own `resources/application-with-actuator.yml` file) as the file itself could be deleted and as such
-no properties would be imported.
+For completeness, it would also be necessary to remove the relevant Spring profile include
+statements - these are
+the
+lines at the top of the `resources/application.yml` that look
+like `- @with-actuator.profile.name@`
+
+```yaml
+spring:
+  profiles:
+    include:
+      - @generic.profile.name@
+      - @with-actuator.profile.name@         ### Remove this line, one option is to use 'sed'
+      - @with-security.profile.name@
+```
+
+and also to delete the features (aka profile) properties defined in its
+own `resources/application-with-actuator.yml` file.

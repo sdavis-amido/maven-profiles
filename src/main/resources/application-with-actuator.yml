@@ -1,0 +1,8 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+app:
+  property: "from with-actuator profile"

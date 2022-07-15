@@ -7,32 +7,3 @@ spring:
 
 app:
   property: "from default profile"
-
----
-spring.profiles: generic
-
-app:
-  property: "from generic profile"
-
----
-spring.profiles: with-actuator
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-app:
-  property: "from with-actuator profile"
-
----
-spring.profiles: with-security
-
-app:
-  property: "from with-security profile"
-
-management:
-  server:
-    ssl:
-      enabled: false

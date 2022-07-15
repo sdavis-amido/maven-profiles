@@ -46,9 +46,8 @@
 
   <profiles>
 
-    <!-- NO ADDITIONAL DEPENDENCIES, DEMONSTRATES THE ACTIVATE-BY-DEFAULT OPTION -->
-
     <profile>
+      <!-- NO ADDITIONAL DEPENDENCIES, DEMONSTRATES THE ACTIVATE-BY-DEFAULT OPTION -->
       <id>generic</id>
       <activation>
         <activeByDefault>true</activeByDefault>
@@ -59,9 +58,8 @@
       <dependencies/>
     </profile>
 
-    <!-- INCLUDING SPRING BOOT ACTUATOR -->
-
     <profile>
+      <!-- INCLUDING SPRING BOOT ACTUATOR -->
       <id>with-actuator</id>
       <properties>
         <with-actuator.profile.name>with-actuator</with-actuator.profile.name>
@@ -76,9 +74,8 @@
       </dependencies>
     </profile>
 
-    <!-- INCLUDING SPRING SECURITY -->
-
     <profile>
+      <!-- INCLUDING SPRING SECURITY -->
       <id>with-security</id>
       <properties>
         <with-security.profile.name>with-security</with-security.profile.name>

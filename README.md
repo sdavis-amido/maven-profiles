@@ -44,7 +44,8 @@ possible though good design to achieve approximately the same end goal.
 NOTE: It should be pointed out that if the end-goal is to end up with project code (or `pom.xml`)
 that has zero reference to a component if it's not wanted then the only way to achieve this would
 be to physically remove those dependencies from the project using post-processing text techniques (
-in a similar way to the way that .Net does it for conditional compilation)
+in a similar way to the way that .Net does it for conditional compilation) - see the section below
+related to config file post-processing.
 
 This example code uses a combination of Maven Profiles and Spring Boot profiles. The former is used
 to import code dependencies and the latter is used to only define (or override) properties if a
@@ -117,3 +118,26 @@ mvn clean spring-boot:run -P with-security,with-actuator
 
 mvn clean package -P with-security,with-actuator
 ```
+
+# Config File Post-processing
+
+To post-process the XML and permanently remove dependencies one option is to use a utility such
+as `xmlstarlet`.
+
+```bash
+brew install xmlstarlet
+
+# Permanently remove the 'with-actuator' references (property and maven profile)
+      
+xmlstarlet edit -N ns='http://maven.apache.org/POM/4.0.0' \
+      --delete './/ns:project/ns:properties/ns:with-actuator.profile.name' \
+      --delete './/ns:project/ns:profiles/ns:profile[ns:id="with-actuator"]' \
+      pom.xml        
+```
+
+It would also be necessary to remove the relevant Spring profile include statements. This activity
+would be a little easier as it's just text manipulation of the application.yml file. It would be
+even easier if the properties for each profile were defined per resource file (for example, for
+the `with-actuator` Spring profile to create its properties using its
+own `resources/application-with-actuator.yml` file) as the file itself could be deleted and as such
+no properties would be imported.

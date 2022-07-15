@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.6.9</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+  <groupId>com.amido</groupId>
+  <artifactId>deps</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>deps</name>
+
+  <description>Dependency demo project for Spring Boot</description>
+
+  <properties>
+    <java.version>11</java.version>
+
+    <!-- Default Spring Profile names for the different elements supported, overridden
+         if the profile is included by Maven further down -->
+    <generic.profile.name>no-generic</generic.profile.name>
+    <with-actuator.profile.name>no-actuator</with-actuator.profile.name>
+    <with-security.profile.name>no-security</with-security.profile.name>
+
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <profiles>
+
+    <!-- NO ADDITIONAL DEPENDENCIES, DEMONSTRATES THE ACTIVATE-BY-DEFAULT OPTION -->
+
+    <profile>
+      <id>generic</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <generic.profile.name>generic</generic.profile.name>
+      </properties>
+      <dependencies/>
+    </profile>
+
+    <!-- INCLUDING SPRING BOOT ACTUATOR -->
+
+    <profile>
+      <id>with-actuator</id>
+      <properties>
+        <with-actuator.profile.name>with-actuator</with-actuator.profile.name>
+      </properties>
+      <dependencies>
+
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+      </dependencies>
+    </profile>
+
+    <!-- INCLUDING SPRING SECURITY -->
+
+    <profile>
+      <id>with-security</id>
+      <properties>
+        <with-security.profile.name>with-security</with-security.profile.name>
+      </properties>
+      <dependencies>
+
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+      </dependencies>
+    </profile>
+
+  </profiles>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
